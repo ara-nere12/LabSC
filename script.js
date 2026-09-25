@@ -197,14 +197,21 @@ const createPersonCard = (row) => {
 };
 
 const loadTeam = async () => {
+  const leaderSection = document.getElementById('leader-section');
+  const leaderList = document.getElementById('leader-list');
   const collaboratorList = document.getElementById('collaborator-list');
   const studentList = document.getElementById('student-list');
-  if (!collaboratorList && !studentList) return false;
+  if (!leaderList && !collaboratorList && !studentList) return false;
   const rows = await fetchSheet('equipo', ['ID', 'GRUPO', 'INICIALES', 'NOMBRE', 'ROL', 'AREA', 'ACTIVO', 'ORDEN']);
   const activeRows = rows && sortSheetRows(rows.filter((row) => isActiveSheetRow(row.ACTIVO)));
   if (!activeRows?.length) return false;
+  const leaders = activeRows.filter((row) => ['lider', 'liderazgo'].includes(normalizeSheetValue(row.GRUPO)));
   const collaborators = activeRows.filter((row) => normalizeSheetValue(row.GRUPO) === 'colaboradores');
   const students = activeRows.filter((row) => normalizeSheetValue(row.GRUPO) === 'estudiantes');
+  if (leaderList && leaders.length) {
+    leaderList.replaceChildren(...leaders.map(createPersonCard));
+    if (leaderSection) leaderSection.hidden = false;
+  }
   if (collaboratorList && collaborators.length) collaboratorList.replaceChildren(...collaborators.map(createPersonCard));
   if (studentList && students.length) studentList.replaceChildren(...students.map(createPersonCard));
   return true;

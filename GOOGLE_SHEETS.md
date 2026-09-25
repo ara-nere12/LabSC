@@ -15,7 +15,7 @@ LABSEMCO usa una estructura híbrida: el diseño permanece en los archivos de la
 - `Carrusel`: cada fila crea una diapositiva nueva en la portada.
 - `Investigación`: cada fila crea una línea de investigación.
 - `Proyectos`: cada fila crea una tarjeta de proyecto.
-- `Equipo`: cada fila crea una persona. Usa `GRUPO=colaboradores` o `GRUPO=estudiantes`.
+- `Equipo`: cada fila crea una persona. Usa `GRUPO=lider` para el apartado superior, `GRUPO=colaboradores` o `GRUPO=estudiantes`.
 - `Enlaces`: cada fila crea un enlace dentro de la sección indicada.
 - `Guía`: instrucciones breves; no se publica.
 

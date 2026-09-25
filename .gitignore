@@ -5,9 +5,13 @@ Thumbs.db
 .idea/
 node_modules/
 update_workbook.mjs
+update_leader_workbook.mjs
 workbook-check.png
+leader-workbook-*.png
 *.updated.xlsx
 *.pre-edicion.xlsx
+*.pre-lider.xlsx
 *.inspect.ndjson
 .qa.mjs
+.qa*.mjs
 qa-*.png
