@@ -182,6 +182,16 @@ const loadProjects = async () => {
     const id = safeDomId(`proyecto-${row.ID}`);
     if (id) article.id = id;
     article.append(createTextElement('span', row.CATEGORIA), createTextElement('h3', row.TITULO), createTextElement('p', row.DESCRIPCION), createTextElement('small', row.ETIQUETAS));
+    const projectUrl = safeResource(row.ENLACE);
+    if (projectUrl) {
+      const link = createTextElement('a', row.TEXTO_ENLACE || 'Ver repositorio ↗', 'project-link');
+      link.href = projectUrl;
+      if (/^https?:\/\//i.test(projectUrl)) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+      article.append(link);
+    }
     return article;
   });
   container.replaceChildren(...cards);

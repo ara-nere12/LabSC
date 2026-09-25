@@ -14,12 +14,14 @@ LABSEMCO usa una estructura híbrida: el diseño permanece en los archivos de la
 - `Contenido`: textos únicos de las seis páginas. Conserva los valores de `ID` y edita `CONTENIDO` o `ACTIVO`.
 - `Carrusel`: cada fila crea una diapositiva nueva en la portada.
 - `Investigación`: cada fila crea una línea de investigación.
-- `Proyectos`: cada fila crea una tarjeta de proyecto.
+- `Proyectos`: cada fila crea una tarjeta de proyecto. Escribe el vínculo del repositorio en `ENLACE`; `TEXTO_ENLACE` es opcional y cambia el texto del botón.
 - `Equipo`: cada fila crea una persona. Usa `GRUPO=lider` para el apartado superior, `GRUPO=colaboradores` o `GRUPO=estudiantes`.
 - `Enlaces`: cada fila crea un enlace dentro de la sección indicada.
 - `Guía`: instrucciones breves; no se publica.
 
 En las pestañas repetibles, `ACTIVO=SI` muestra la fila, `ACTIVO=NO` la oculta y `ORDEN` controla su posición. Cada fila debe tener un `ID` único.
+
+En `Proyectos`, `ENLACE` acepta direcciones completas como `https://github.com/organizacion/proyecto`. Si `TEXTO_ENLACE` queda vacío, la web mostrará **Ver repositorio ↗**. Cuando `ENLACE` está vacío, la tarjeta se muestra sin botón.
 
 ## Publicar las pestañas
 
