@@ -66,7 +66,22 @@ const fetchSheet = async (key, requiredHeaders) => {
     const response = await fetch(url, { cache: 'no-store', signal: controller.signal });
     if (!response.ok) throw new Error(`Google Sheets respondió con ${response.status}`);
     const parsedRows = parseCsv(await response.text());
-    const headers = (parsedRows.shift() || []).map((header) => header.trim().toLocaleUpperCase('es-MX'));
+    const rawHeaders = parsedRows.shift() || [];
+    let headers = rawHeaders.map((header) => header.trim().toLocaleUpperCase('es-MX'));
+    if (!requiredHeaders.every((header) => headers.includes(header))) {
+      const recoveredValues = [];
+      const recoveredHeaders = rawHeaders.map((cell) => {
+        const normalizedCell = cell.trim().toLocaleUpperCase('es-MX');
+        const expectedHeader = requiredHeaders.find((header) => normalizedCell === header || normalizedCell.startsWith(`${header} `));
+        if (!expectedHeader) return normalizedCell;
+        recoveredValues.push(cell.trim().slice(expectedHeader.length).trim());
+        return expectedHeader;
+      });
+      if (requiredHeaders.every((header) => recoveredHeaders.includes(header))) {
+        headers = recoveredHeaders;
+        if (recoveredValues.some(Boolean)) parsedRows.unshift(recoveredValues);
+      }
+    }
     if (!requiredHeaders.every((header) => headers.includes(header))) throw new Error(`Faltan columnas en la hoja ${key}`);
     return parsedRows.map((values) => Object.fromEntries(headers.map((header, index) => [header, values[index] ?? ''])));
   } catch (error) {

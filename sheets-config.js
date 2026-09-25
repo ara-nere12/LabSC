@@ -1,10 +1,9 @@
 window.LABSEMCO_SHEETS = {
-  // Publicada y verificada. Las colecciones vacías usan el contenido local de respaldo.
-  contenido: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRoA3pyjRPJgTmlxJx81LT6SqHINl018U2hrcNc8e175NVxvUAfcPiNLiYEiA4--vavnyxB3d11xb8U/pub?gid=0&single=true&output=csv',
-  // Pendientes de publicar como CSV desde Google Sheets.
-  carrusel: '',
-  investigacion: '',
-  proyectos: '',
-  equipo: '',
-  enlaces: '',
+  // Hoja compartida y verificada. Cada dirección apunta a una pestaña distinta.
+  contenido: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=955823971',
+  carrusel: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=1895943692',
+  investigacion: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=1750833558',
+  proyectos: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=828568870',
+  equipo: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=949164931',
+  enlaces: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=1739423085',
 };

@@ -4,10 +4,10 @@ LABSEMCO usa una estructura híbrida: el diseño permanece en los archivos de la
 
 ## Estado actual
 
-- `Contenido` está publicado y conectado.
-- `Carrusel`, `Investigación`, `Proyectos`, `Equipo` y `Enlaces` permanecen vacíos en `sheets-config.js` porque todavía no están publicados en la hoja pública.
-- La página continúa funcionando con el contenido local incluido en los HTML mientras se completan esas publicaciones.
-- No deben inventarse ni reutilizarse identificadores `gid`: cada pestaña obtiene el suyo al publicarse.
+- `Contenido`, `Carrusel`, `Investigación`, `Proyectos`, `Equipo` y `Enlaces` están conectados a la hoja compartida.
+- Las direcciones CSV se encuentran en `sheets-config.js` y usan el identificador `gid` propio de cada pestaña.
+- La página conserva el contenido local de respaldo si Google Sheets no está disponible.
+- Si se crea otra pestaña o se reemplaza la hoja, debe verificarse su nuevo identificador `gid` antes de cambiar la configuración.
 
 ## Pestañas
 
@@ -20,6 +20,8 @@ LABSEMCO usa una estructura híbrida: el diseño permanece en los archivos de la
 - `Guía`: instrucciones breves; no se publica.
 
 En las pestañas repetibles, `ACTIVO=SI` muestra la fila, `ACTIVO=NO` la oculta y `ORDEN` controla su posición. Cada fila debe tener un `ID` único.
+
+Conserva sin cambios la primera fila de encabezados. Agrega personas, proyectos y demás registros a partir de la fila 2.
 
 En `Proyectos`, `ENLACE` acepta direcciones completas como `https://github.com/organizacion/proyecto`. Si `TEXTO_ENLACE` queda vacío, la web mostrará **Ver repositorio ↗**. Cuando `ENLACE` está vacío, la tarjeta se muestra sin botón.
 

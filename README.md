@@ -32,7 +32,7 @@ python -m http.server 8000
 
 El sitio funciona aun cuando Google Sheets no responde. Cada página conserva contenido local y lo sustituye únicamente cuando la colección correspondiente está publicada y configurada.
 
-Actualmente sólo `Contenido` está publicado. Para completar las otras colecciones sigue `GOOGLE_SHEETS.md` y pega cada URL CSV en `sheets-config.js`.
+Las seis colecciones están conectadas a la hoja compartida de Google Sheets. Si cambia la hoja de origen o alguna pestaña, actualiza su dirección CSV en `sheets-config.js`.
 
 ## Publicación
 
@@ -55,4 +55,3 @@ Antes de publicar:
 - Sitio de LABSEMCO: https://cinc.uaem.mx/semantica-computacional/
 - Centro de Investigación en Ciencias: https://cinc.uaem.mx/
 - Universidad Autónoma del Estado de Morelos: https://www.uaem.mx/
-
