@@ -1,0 +1,13 @@
+Thumbs.db
+.DS_Store
+*.log
+.vscode/
+.idea/
+node_modules/
+update_workbook.mjs
+workbook-check.png
+*.updated.xlsx
+*.pre-edicion.xlsx
+*.inspect.ndjson
+.qa.mjs
+qa-*.png

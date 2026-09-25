@@ -2,6 +2,13 @@
 
 LABSEMCO usa una estructura híbrida: el diseño permanece en los archivos de la página y Google Sheets administra el contenido. Si una hoja no está disponible, la página conserva el contenido local de respaldo.
 
+## Estado actual
+
+- `Contenido` está publicado y conectado.
+- `Carrusel`, `Investigación`, `Proyectos`, `Equipo` y `Enlaces` permanecen vacíos en `sheets-config.js` porque todavía no están publicados en la hoja pública.
+- La página continúa funcionando con el contenido local incluido en los HTML mientras se completan esas publicaciones.
+- No deben inventarse ni reutilizarse identificadores `gid`: cada pestaña obtiene el suyo al publicarse.
+
 ## Pestañas
 
 - `Contenido`: textos únicos de las seis páginas. Conserva los valores de `ID` y edita `CONTENIDO` o `ACTIVO`.
@@ -22,6 +29,7 @@ En las pestañas repetibles, `ACTIVO=SI` muestra la fila, `ACTIVO=NO` la oculta 
 4. Copia el vínculo publicado.
 5. Repite los pasos para `Contenido`, `Carrusel`, `Investigación`, `Proyectos`, `Equipo` y `Enlaces`.
 6. Pega cada vínculo en su lugar correspondiente dentro de `sheets-config.js`.
+7. Abre el sitio mediante un servidor local y confirma en la consola del navegador que no aparezca el aviso `Faltan columnas`.
 
 Ejemplo:
 
