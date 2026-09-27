@@ -1,4 +1,5 @@
 const menuButton = document.querySelector('.menu-toggle');
+const sidebar = document.querySelector('.sidebar');
 const navigation = document.querySelector('.site-nav');
 const navLinks = [...document.querySelectorAll('.site-nav a')];
 const inPageNavLinks = navLinks.filter((link) => link.getAttribute('href')?.startsWith('#'));
@@ -314,16 +315,24 @@ const initCarousel = () => {
 
 if (carouselSection && homeHero) homeHero.insertAdjacentElement('afterend', carouselSection);
 
-if (menuButton && navigation) {
-  menuButton.addEventListener('click', () => {
-    const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
-    menuButton.setAttribute('aria-expanded', String(!isOpen));
-    navigation.classList.toggle('open', !isOpen);
+if (menuButton && navigation && sidebar) {
+  const menuLabel = menuButton.querySelector('.sr-only');
+  const setMenuState = (isOpen, returnFocus = false) => {
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+    navigation.classList.toggle('open', isOpen);
+    sidebar.classList.toggle('is-expanded', isOpen);
+    if (menuLabel) menuLabel.textContent = isOpen ? 'Cerrar menú' : 'Abrir menú';
+    if (returnFocus) menuButton.focus();
+  };
+
+  menuButton.addEventListener('click', () => setMenuState(menuButton.getAttribute('aria-expanded') !== 'true'));
+  navLinks.forEach((link) => link.addEventListener('click', () => setMenuState(false)));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') setMenuState(false, true);
   });
-  navLinks.forEach((link) => link.addEventListener('click', () => {
-    navigation.classList.remove('open');
-    menuButton.setAttribute('aria-expanded', 'false');
-  }));
+  document.addEventListener('pointerdown', (event) => {
+    if (menuButton.getAttribute('aria-expanded') === 'true' && !sidebar.contains(event.target)) setMenuState(false);
+  });
 }
 
 const sections = [...document.querySelectorAll('main section[id]')];
