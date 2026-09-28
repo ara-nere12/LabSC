@@ -229,3 +229,44 @@
   .sidebar.is-expanded .site-nav{max-height:460px}
   .sidebar-foot{display:block}
 }
+
+/* Composición editorial: módulos abiertos, sin recuadros */
+.summary-grid,.impact-grid,.detail-topics,.events-list{border:0;column-gap:8vw;row-gap:92px}
+.summary-grid>a,.impact-card,.detail-topics article,.event-card,.event-empty{position:relative;min-height:280px;padding:24px 0 0;border:0;background:transparent!important;box-shadow:none;color:var(--ink)!important;transition:transform .25s ease,color .25s ease}
+.summary-grid>a::before,.impact-card::before,.detail-topics article::before,.event-card::before,.event-empty::before{content:"";position:absolute;top:0;left:0;width:72px;height:2px;background:var(--blue);transition:width .25s ease,background .25s ease}
+.summary-grid>a:hover,.summary-grid>a:focus-visible,.impact-card:hover,.impact-card:focus-within{color:var(--blue)!important;background:transparent!important;transform:translateY(-7px)}
+.summary-grid>a:hover::before,.summary-grid>a:focus-visible::before,.impact-card:hover::before,.impact-card:focus-within::before{width:132px;background:var(--mint)}
+.summary-grid>a:hover small,.summary-grid>a:focus-visible small,.summary-grid>a:hover b,.summary-grid>a:focus-visible b{color:var(--blue)}
+.summary-grid>a:hover p,.summary-grid>a:focus-visible p,.impact-card:nth-child(4) p{color:rgba(12,8,43,.67)}
+.summary-grid h3{margin-top:48px}.summary-grid>a:last-child{min-height:280px}
+.impact-card:nth-child(4)>span,.impact-card:nth-child(4) small,.impact-card:nth-child(4) .project-link{color:var(--blue)}
+.impact-card h3{margin-top:48px}.impact-card small{margin-top:34px;padding-top:0}
+.detail-topics{padding:105px 6vw 135px}
+.detail-topics article{min-height:360px;padding-inline:0;scroll-margin-top:120px}
+.detail-topics article:nth-child(2),.detail-topics article:nth-child(3){background:transparent!important}
+.detail-topics h2{margin-top:48px}
+.events-list{align-items:start}.event-card,.event-empty{min-height:290px}.event-empty{max-width:760px}
+.event-card h3{margin-top:48px}
+.community-routes{margin:0;padding:105px 6vw 125px;display:block;border:0;background:var(--paper)}
+.community-routes>header{display:grid;grid-template-columns:.55fr 1.3fr;gap:6%;align-items:end}
+.community-routes>header h2{max-width:900px;margin:0;font-size:clamp(2.6rem,4.7vw,5.5rem);line-height:.98;letter-spacing:-.055em}
+.community-routes>div{margin-top:75px;display:grid;grid-template-columns:repeat(2,1fr);column-gap:8vw;row-gap:28px}
+.community-routes a{min-height:auto;padding:22px 0;align-items:center;border:0;border-top:1px solid rgba(12,8,43,.28);font-size:clamp(1.25rem,2.2vw,2.4rem);letter-spacing:-.035em;transition:color .2s ease,transform .2s ease}
+.community-routes a::after{content:"↗";color:var(--blue);font:500 .9rem "DM Mono",monospace}
+.community-routes a:hover,.community-routes a:focus-visible{color:var(--blue);background:transparent;transform:translateX(8px)}
+.detail-disciplines{gap:34px 6vw}.detail-disciplines span{min-height:auto;padding:20px 0;border:0;border-top:1px solid rgba(233,238,248,.35)}
+.person-fields{column-gap:7vw;row-gap:0;border:0}.person-fields>div{min-height:170px;padding:28px 0;border:0;border-top:1px solid rgba(12,8,43,.25)}
+
+@media(min-width:761px){
+  .summary-grid>a:nth-child(even),.impact-grid>.impact-card:nth-child(even),.detail-topics article:nth-child(even),.events-list>.event-card:nth-child(even){transform:translateY(68px)}
+  .summary-grid>a:nth-child(even):hover,.summary-grid>a:nth-child(even):focus-visible,.impact-grid>.impact-card:nth-child(even):hover,.impact-grid>.impact-card:nth-child(even):focus-within{transform:translateY(61px)}
+}
+
+@media(max-width:760px){
+  .summary-grid,.impact-grid,.detail-topics,.events-list{row-gap:62px}
+  .summary-grid>a,.summary-grid>a:last-child,.impact-card,.detail-topics article,.event-card,.event-empty{min-height:auto;padding:22px 0 0}
+  .summary-grid h3,.impact-card h3,.detail-topics h2,.event-card h3{margin-top:38px}
+  .detail-topics{padding:80px 20px 95px}
+  .community-routes{padding:80px 20px 95px}.community-routes>header{grid-template-columns:1fr;gap:24px}.community-routes>div{margin-top:55px;grid-template-columns:1fr;row-gap:10px}.community-routes a{font-size:1.45rem}
+  .detail-disciplines{gap:14px 28px}.person-fields{row-gap:0}
+}
