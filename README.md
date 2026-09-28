@@ -19,6 +19,8 @@ Sitio estático del Laboratorio de Semántica Computacional del Centro de Invest
 
 La página antigua `comunidad.html` y la carpeta de fotografías originales no forman parte del sitio de producción. Se conservaron fuera de esta carpeta.
 
+Las fotografías principales usan un degradado horizontal común: 40% del color de la sección y 60% de imagen. El logotipo conserva su apariencia original.
+
 ## Probar localmente
 
 No abras los HTML directamente si deseas probar Google Sheets, porque el navegador puede limitar las solicitudes externas. Inicia un servidor web local en esta carpeta y visita `http://localhost:8000/`.
