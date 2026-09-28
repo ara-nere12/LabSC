@@ -127,6 +127,28 @@ const loadStaticContent = async () => {
   return true;
 };
 
+const loadDesign = async () => {
+  const rows = await fetchSheet('diseno', ['CLAVE', 'TAMAÑO_PX']);
+  if (!rows) return false;
+  const designRules = {
+    titulo_principal: { property: '--font-title-main', min: 48, max: 120 },
+    titulo_seccion: { property: '--font-title-section', min: 36, max: 82 },
+    subtitulo: { property: '--font-subtitle', min: 22, max: 48 },
+    texto_normal: { property: '--font-body', min: 14, max: 24 },
+    texto_pequeno: { property: '--font-small', min: 11, max: 18 },
+  };
+  let applied = false;
+  rows.forEach((row) => {
+    const rule = designRules[normalizeSheetValue(row.CLAVE)];
+    const requestedSize = Number(String(row['TAMAÑO_PX'] ?? '').replace(',', '.'));
+    if (!rule || !Number.isFinite(requestedSize)) return;
+    const safeSize = Math.min(rule.max, Math.max(rule.min, requestedSize));
+    document.documentElement.style.setProperty(rule.property, `${safeSize}px`);
+    applied = true;
+  });
+  return applied;
+};
+
 const loadCarousel = async () => {
   const track = document.getElementById('carousel-list');
   const dots = document.querySelector('.carousel-dots');
@@ -516,7 +538,7 @@ if ('IntersectionObserver' in window && inPageNavLinks.length) {
 }
 
 const initializeContent = async () => {
-  const results = await Promise.all([loadStaticContent(), loadCarousel(), loadResearch(), loadProjects(), loadTeam(), loadPersonProfile(), loadEvents(), loadLinks()]);
+  const results = await Promise.all([loadDesign(), loadStaticContent(), loadCarousel(), loadResearch(), loadProjects(), loadTeam(), loadPersonProfile(), loadEvents(), loadLinks()]);
   document.documentElement.dataset.contentSource = results.some(Boolean) ? 'google-sheets' : 'local';
   initCarousel();
 };

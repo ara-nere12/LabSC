@@ -7,4 +7,5 @@ window.LABSEMCO_SHEETS = {
   divulgacion: '', // Pega aquí el CSV publicado de la nueva pestaña Divulgación.
   equipo: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=949164931',
   enlaces: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=1739423085',
+  diseno: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=1413997295',
 };
