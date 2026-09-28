@@ -18,10 +18,10 @@
 .page-shell,.detail-shell{padding-top:84px}
 .sidebar{top:84px}
 .sidebar>.brand{display:none}
-.brand-banner{position:fixed;z-index:60;top:0;left:0;right:0;height:84px;padding:0 clamp(24px,4vw,64px) 0 clamp(22px,3vw,46px);display:flex;align-items:center;justify-content:space-between;gap:32px;color:var(--white);background:radial-gradient(circle at 18% -60%,rgba(176,241,204,.18),transparent 38%),linear-gradient(105deg,#015b9b 0%,#01508e 58%,#073c70 100%);border-bottom:1px solid rgba(255,255,255,.18);box-shadow:0 8px 26px rgba(12,8,43,.18)}
+.brand-banner{position:fixed;z-index:60;top:0;left:0;right:0;height:84px;padding:0 clamp(24px,4vw,64px) 0 clamp(22px,3vw,46px);display:flex;align-items:center;justify-content:space-between;gap:32px;color:var(--white);background:#01508e;border-bottom:1px solid rgba(255,255,255,.18);box-shadow:0 8px 26px rgba(12,8,43,.18)}
 .brand-banner:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,var(--mint) 0 18%,rgba(176,241,204,.25) 42%,transparent 76%)}
 .brand-banner>a{height:62px;padding-right:30px;display:flex;align-items:center;flex-shrink:0;border-right:1px solid rgba(255,255,255,.2)}
-.brand-banner img{width:auto;height:57px;display:block;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(12,8,43,.16))}
+.brand-banner img{width:auto;height:57px;display:block;object-fit:contain}
 .brand-banner p{margin:0;display:flex;align-items:center;justify-content:flex-end;gap:20px;color:rgba(255,255,255,.86);font:500 .57rem "DM Mono",monospace;letter-spacing:.11em;text-align:right;text-transform:uppercase}
 .brand-banner p span{padding:8px 11px;color:var(--mint);background:rgba(12,8,43,.18);border:1px solid rgba(176,241,204,.35);border-radius:999px;white-space:nowrap}
 .institution-strip{min-height:46px;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;gap:20px;color:rgba(12,8,43,.58);background:var(--white);border-bottom:1px solid rgba(12,8,43,.12);font:500 .54rem "DM Mono",monospace;letter-spacing:.09em;text-transform:uppercase}
