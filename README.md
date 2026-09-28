@@ -8,7 +8,7 @@ Sitio estático del Laboratorio de Semántica Computacional del Centro de Invest
 - `nosotros.html`: presentación del laboratorio.
 - `investigacion.html`: líneas de investigación.
 - `proyectos.html`: proyectos e impacto.
-- `equipo.html`: directorio del equipo, organizado automáticamente por categorías y nivel académico.
+- `equipo.html`: directorio organizado automáticamente mediante las categorías editables de la hoja.
 - `persona.html`: ficha dinámica reutilizada para todos los integrantes.
 - `contacto.html`: ubicación y contacto institucional.
 - `assets/`: imágenes usadas por el sitio.

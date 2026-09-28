@@ -226,19 +226,27 @@ const fallbackTeam = [
 
 const formatTeamGroup = (value) => {
   const normalized = normalizeSheetValue(value);
-  if (['lider', 'liderazgo', 'direccion'].includes(normalized)) return 'Liderazgo';
-  if (normalized === 'colaboradores') return 'Colaboradores';
+  if (['doctor', 'dr', 'lider', 'liderazgo', 'direccion'].includes(normalized)) return 'Doctor';
+  if (['miembro', 'miembros', 'colaborador', 'colaboradores'].includes(normalized)) return 'Miembros';
   if (normalized === 'estudiantes') return 'Estudiantes';
+  if (normalized === 'maestria') return 'Maestría';
+  if (['doctorado', 'doctorados'].includes(normalized)) return 'Doctorados';
+  if (['investigador asociado', 'investigadores asociados'].includes(normalized)) return 'Investigadores asociados';
+  if (['visitante', 'visitantes'].includes(normalized)) return 'Visitantes';
+  if (['institucion colaboradora', 'instituciones colaboradoras'].includes(normalized)) return 'Instituciones colaboradoras';
   const label = String(value || 'Otros integrantes').trim().replace(/[_-]+/g, ' ');
   return label.charAt(0).toLocaleUpperCase('es-MX') + label.slice(1);
 };
 
-const classifyTeamLevel = (value) => {
+const canonicalTeamGroup = (value) => {
   const normalized = normalizeSheetValue(value);
-  if (normalized.includes('doctorado') || normalized.includes('postdoctor')) return { key: 'doctorado', label: 'Doctorado', priority: 0 };
-  if (normalized.includes('maestr')) return { key: 'maestria', label: 'Maestría', priority: 1 };
-  if (normalized.includes('licenciatura') || /(^|\s)lic\.?($|\s|\/)/.test(normalized)) return { key: 'licenciatura', label: 'Licenciatura', priority: 2 };
-  return { key: 'rol', label: 'Rol institucional', priority: 3 };
+  if (['doctor', 'dr', 'lider', 'liderazgo', 'direccion'].includes(normalized)) return 'doctor';
+  if (['miembro', 'miembros', 'colaborador', 'colaboradores'].includes(normalized)) return 'miembros';
+  if (['doctorado', 'doctorados'].includes(normalized)) return 'doctorados';
+  if (['investigador asociado', 'investigadores asociados'].includes(normalized)) return 'investigadores asociados';
+  if (['visitante', 'visitantes'].includes(normalized)) return 'visitantes';
+  if (['institucion colaboradora', 'instituciones colaboradoras'].includes(normalized)) return 'instituciones colaboradoras';
+  return normalized || 'otros integrantes';
 };
 
 const createPersonRow = (row) => {
@@ -262,36 +270,21 @@ const loadTeam = async () => {
   if (!activeRows?.length) return false;
   const groups = new Map();
   activeRows.forEach((row) => {
-    const key = normalizeSheetValue(row.GRUPO) || 'otros integrantes';
-    const canonicalKey = ['lider', 'liderazgo', 'direccion'].includes(key) ? 'liderazgo' : key;
+    const canonicalKey = canonicalTeamGroup(row.GRUPO);
     if (!groups.has(canonicalKey)) groups.set(canonicalKey, { label: formatTeamGroup(row.GRUPO), rows: [] });
     groups.get(canonicalKey).rows.push(row);
   });
-  const priority = { liderazgo: 0, colaboradores: 1, estudiantes: 2 };
+  const priority = { doctor: 0, miembros: 1, estudiantes: 2, maestria: 3, doctorados: 4, 'investigadores asociados': 5, visitantes: 6, 'instituciones colaboradoras': 7 };
   const sections = [...groups.entries()].sort(([groupA], [groupB]) => (priority[groupA] ?? 99) - (priority[groupB] ?? 99)).map(([, group]) => {
     const section = document.createElement('div');
     section.className = 'team-list-section';
     const header = document.createElement('header');
     const count = `${String(group.rows.length).padStart(2, '0')} ${group.rows.length === 1 ? 'integrante' : 'integrantes'}`;
     header.append(createTextElement('h2', group.label), createTextElement('span', count));
-    const levels = new Map();
-    group.rows.forEach((row) => {
-      const level = classifyTeamLevel(row.NIVEL_ROL || row.ROL);
-      if (!levels.has(level.key)) levels.set(level.key, { ...level, rows: [] });
-      levels.get(level.key).rows.push(row);
-    });
-    const levelBlocks = [...levels.values()].sort((levelA, levelB) => levelA.priority - levelB.priority).map((level) => {
-      const block = document.createElement('div');
-      block.className = 'team-level-block';
-      const levelHeader = document.createElement('header');
-      levelHeader.append(createTextElement('h3', level.label), createTextElement('span', String(level.rows.length).padStart(2, '0')));
-      const list = document.createElement('div');
-      list.className = 'team-list';
-      list.append(...level.rows.map(createPersonRow));
-      block.append(levelHeader, list);
-      return block;
-    });
-    section.append(header, ...levelBlocks);
+    const list = document.createElement('div');
+    list.className = 'team-list';
+    list.append(...group.rows.map(createPersonRow));
+    section.append(header, list);
     return section;
   });
   directory.replaceChildren(...sections);
