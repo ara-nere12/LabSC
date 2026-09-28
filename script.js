@@ -214,32 +214,122 @@ const loadProjects = async () => {
   return true;
 };
 
-const createPersonCard = (row) => {
-  const article = document.createElement('article');
+const fallbackTeam = [
+  { ID: 'gerardo', GRUPO: 'colaboradores', INICIALES: 'GT', NOMBRE: 'Dr. Gerardo Mauricio Toledo Acosta', ROL: 'Investigación postdoctoral', AREA: 'Matemáticas puras y aplicadas', ACTIVO: 'SI', ORDEN: '1' },
+  { ID: 'markus', GRUPO: 'colaboradores', INICIALES: 'MM', NOMBRE: 'Dr. Markus Mueller', ROL: 'Investigador CInC', AREA: 'Sistemas complejos', ACTIVO: 'SI', ORDEN: '2' },
+  { ID: 'asela', GRUPO: 'colaboradores', INICIALES: 'AR', NOMBRE: 'Dra. Asela Reig Alamillo', ROL: 'Investigadora CINCCO', AREA: 'Lingüística cognitiva', ACTIVO: 'SI', ORDEN: '3' },
+  { ID: 'david', GRUPO: 'estudiantes', INICIALES: 'M', NOMBRE: 'David Torres Moreno', ROL: 'Maestría', AREA: 'Ciencias Cognitivas · CINCCO-UAEM', ACTIVO: 'SI', ORDEN: '1' },
+  { ID: 'mark', GRUPO: 'estudiantes', INICIALES: 'M', NOMBRE: 'Mark Joseph Hernández Estrada', ROL: 'Maestría', AREA: 'Optimización y Cómputo Aplicado · FCAeI-UAEM', ACTIVO: 'SI', ORDEN: '2' },
+  { ID: 'eliseo', GRUPO: 'estudiantes', INICIALES: 'L', NOMBRE: 'Eliseo Morales González', ROL: 'Licenciatura', AREA: 'Ciencias · IICBA-UAEM', ACTIVO: 'SI', ORDEN: '3' },
+  { ID: 'bolivar', GRUPO: 'estudiantes', INICIALES: 'L', NOMBRE: 'Bolívar Martínez Zaldívar', ROL: 'Licenciatura', AREA: 'Matemáticas · FC-UNAM', ACTIVO: 'SI', ORDEN: '4' },
+];
+
+const formatTeamGroup = (value) => {
+  const normalized = normalizeSheetValue(value);
+  if (['lider', 'liderazgo', 'direccion'].includes(normalized)) return 'Liderazgo';
+  if (normalized === 'colaboradores') return 'Colaboradores';
+  if (normalized === 'estudiantes') return 'Estudiantes';
+  const label = String(value || 'Otros integrantes').trim().replace(/[_-]+/g, ' ');
+  return label.charAt(0).toLocaleUpperCase('es-MX') + label.slice(1);
+};
+
+const createPersonRow = (row) => {
+  const anchor = document.createElement('a');
+  anchor.className = 'team-row';
+  anchor.href = `persona.html?id=${encodeURIComponent(String(row.ID).trim())}`;
   const id = safeDomId(`equipo-${row.ID}`);
-  if (id) article.id = id;
-  article.append(createTextElement('b', row.INICIALES), createTextElement('small', row.ROL), createTextElement('h3', row.NOMBRE), createTextElement('p', row.AREA));
-  return article;
+  if (id) anchor.id = id;
+  const identity = document.createElement('span');
+  identity.append(createTextElement('strong', row.NOMBRE), createTextElement('small', row.NIVEL_ROL || row.ROL));
+  anchor.append(createTextElement('b', row.INICIALES || '—'), identity, createTextElement('p', row.TEMA_INVESTIGACION || row.AREA), createTextElement('i', '→'));
+  anchor.lastElementChild.setAttribute('aria-hidden', 'true');
+  return anchor;
 };
 
 const loadTeam = async () => {
-  const leaderSection = document.getElementById('leader-section');
-  const leaderList = document.getElementById('leader-list');
-  const collaboratorList = document.getElementById('collaborator-list');
-  const studentList = document.getElementById('student-list');
-  if (!leaderList && !collaboratorList && !studentList) return false;
+  const directory = document.getElementById('team-directory');
+  if (!directory) return false;
   const rows = await fetchSheet('equipo', ['ID', 'GRUPO', 'INICIALES', 'NOMBRE', 'ROL', 'AREA', 'ACTIVO', 'ORDEN']);
   const activeRows = rows && sortSheetRows(rows.filter((row) => isActiveSheetRow(row.ACTIVO)));
   if (!activeRows?.length) return false;
-  const leaders = activeRows.filter((row) => ['lider', 'liderazgo'].includes(normalizeSheetValue(row.GRUPO)));
-  const collaborators = activeRows.filter((row) => normalizeSheetValue(row.GRUPO) === 'colaboradores');
-  const students = activeRows.filter((row) => normalizeSheetValue(row.GRUPO) === 'estudiantes');
-  if (leaderList && leaders.length) {
-    leaderList.replaceChildren(...leaders.map(createPersonCard));
-    if (leaderSection) leaderSection.hidden = false;
+  const groups = new Map();
+  activeRows.forEach((row) => {
+    const key = normalizeSheetValue(row.GRUPO) || 'otros integrantes';
+    const canonicalKey = ['lider', 'liderazgo', 'direccion'].includes(key) ? 'liderazgo' : key;
+    if (!groups.has(canonicalKey)) groups.set(canonicalKey, { label: formatTeamGroup(row.GRUPO), rows: [] });
+    groups.get(canonicalKey).rows.push(row);
+  });
+  const priority = { liderazgo: 0, colaboradores: 1, estudiantes: 2 };
+  const sections = [...groups.entries()].sort(([groupA], [groupB]) => (priority[groupA] ?? 99) - (priority[groupB] ?? 99)).map(([, group]) => {
+    const section = document.createElement('div');
+    section.className = 'team-list-section';
+    const header = document.createElement('header');
+    const count = `${String(group.rows.length).padStart(2, '0')} ${group.rows.length === 1 ? 'integrante' : 'integrantes'}`;
+    header.append(createTextElement('h2', group.label), createTextElement('span', count));
+    const list = document.createElement('div');
+    list.className = 'team-list';
+    list.append(...group.rows.map(createPersonRow));
+    section.append(header, list);
+    return section;
+  });
+  directory.replaceChildren(...sections);
+  return true;
+};
+
+const loadPersonProfile = async () => {
+  const profile = document.getElementById('person-profile');
+  if (!profile) return false;
+  const requestedId = new URLSearchParams(window.location.search).get('id')?.trim() || '';
+  const sheetRows = await fetchSheet('equipo', ['ID', 'GRUPO', 'INICIALES', 'NOMBRE', 'ROL', 'AREA', 'ACTIVO', 'ORDEN']);
+  const availableRows = sheetRows?.length ? sheetRows : fallbackTeam;
+  const person = availableRows.find((row) => isActiveSheetRow(row.ACTIVO) && normalizeSheetValue(row.ID) === normalizeSheetValue(requestedId));
+  const status = document.getElementById('profile-status');
+  const details = document.getElementById('person-details');
+  if (!person) {
+    document.getElementById('person-name').textContent = 'Perfil no encontrado';
+    document.getElementById('person-level').textContent = requestedId ? 'Este integrante no está publicado o el enlace ya no es válido.' : 'Selecciona un nombre desde el directorio del equipo.';
+    document.getElementById('person-initials').textContent = '?';
+    if (status) status.innerHTML = '<p><a href="equipo.html">Volver al directorio del equipo →</a></p>';
+    document.title = 'Perfil no encontrado · LABSEMCO';
+    return false;
   }
-  if (collaboratorList && collaborators.length) collaboratorList.replaceChildren(...collaborators.map(createPersonCard));
-  if (studentList && students.length) studentList.replaceChildren(...students.map(createPersonCard));
+
+  const values = {
+    RESUMEN: person.RESUMEN,
+    TEMA_INVESTIGACION: person.TEMA_INVESTIGACION || person.AREA,
+    TITULO_INVESTIGACION: person.TITULO_INVESTIGACION,
+    CORREO: person.CORREO,
+    PUBLICACIONES: person.PUBLICACIONES,
+    GOOGLE_SCHOLAR: person.GOOGLE_SCHOLAR,
+  };
+  document.getElementById('person-name').textContent = person.NOMBRE;
+  document.getElementById('person-level').textContent = person.NIVEL_ROL || person.ROL || '';
+  document.getElementById('person-group').textContent = formatTeamGroup(person.GRUPO);
+  document.getElementById('person-initials').textContent = person.INICIALES || 'LS';
+  document.getElementById('person-summary').textContent = values.RESUMEN || '';
+  document.getElementById('person-topic').textContent = values.TEMA_INVESTIGACION || '';
+  document.getElementById('person-research-title').textContent = values.TITULO_INVESTIGACION || '';
+  document.getElementById('person-publications').textContent = values.PUBLICACIONES || '';
+  const email = String(values.CORREO || '').trim();
+  const emailLink = document.getElementById('person-email');
+  if (emailLink && email) {
+    emailLink.textContent = email.replace(/^mailto:/i, '');
+    emailLink.href = /^mailto:/i.test(email) ? email : `mailto:${email}`;
+  }
+  const scholar = safeResource(values.GOOGLE_SCHOLAR);
+  const scholarLink = document.getElementById('person-scholar');
+  if (scholarLink && scholar) scholarLink.href = scholar;
+  document.querySelectorAll('[data-profile-field]').forEach((element) => {
+    const value = values[element.dataset.profileField];
+    element.hidden = !String(value || '').trim() || (element.dataset.profileField === 'GOOGLE_SCHOLAR' && !scholar);
+  });
+  if (details) details.hidden = false;
+  if (status) {
+    const hasExtendedProfile = ['RESUMEN', 'TITULO_INVESTIGACION', 'CORREO', 'PUBLICACIONES', 'GOOGLE_SCHOLAR'].some((key) => String(values[key] || '').trim());
+    status.hidden = hasExtendedProfile;
+    status.innerHTML = '<p>Este perfil ya está conectado; la información complementaria se añadirá desde la pestaña Equipo.</p>';
+  }
+  document.title = `${person.NOMBRE} · LABSEMCO`;
   return true;
 };
 
@@ -347,7 +437,7 @@ if ('IntersectionObserver' in window && inPageNavLinks.length) {
 }
 
 const initializeContent = async () => {
-  const results = await Promise.all([loadStaticContent(), loadCarousel(), loadResearch(), loadProjects(), loadTeam(), loadLinks()]);
+  const results = await Promise.all([loadStaticContent(), loadCarousel(), loadResearch(), loadProjects(), loadTeam(), loadPersonProfile(), loadLinks()]);
   document.documentElement.dataset.contentSource = results.some(Boolean) ? 'google-sheets' : 'local';
   initCarousel();
 };

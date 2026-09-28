@@ -8,7 +8,8 @@ Sitio estático del Laboratorio de Semántica Computacional del Centro de Invest
 - `nosotros.html`: presentación del laboratorio.
 - `investigacion.html`: líneas de investigación.
 - `proyectos.html`: proyectos e impacto.
-- `equipo.html`: colaboradores y estudiantes.
+- `equipo.html`: directorio del equipo, organizado automáticamente por categorías.
+- `persona.html`: ficha dinámica reutilizada para todos los integrantes.
 - `contacto.html`: ubicación y contacto institucional.
 - `assets/`: imágenes usadas por el sitio.
 - `styles.css` y `script.js`: estilos y comportamiento compartidos.
@@ -44,7 +45,7 @@ Si el sitio se publica en otra ubicación, actualiza las etiquetas `canonical`, 
 
 Antes de publicar:
 
-1. Verifica las seis páginas y `404.html` en computadora y teléfono.
+1. Verifica las siete páginas y `404.html` en computadora y teléfono.
 2. Confirma que no haya errores en la consola del navegador.
 3. Comprueba las direcciones CSV configuradas.
 4. Revisa que los nombres, cargos, proyectos y datos de contacto sigan vigentes.
