@@ -380,25 +380,35 @@ const loadPersonProfile = async () => {
     GOOGLE_SCHOLAR: person.GOOGLE_SCHOLAR,
   };
   document.getElementById('person-name').textContent = person.NOMBRE;
-  document.getElementById('person-level').textContent = person.NIVEL_ROL || person.ROL || '';
+  document.getElementById('person-level').textContent = person.NIVEL_ROL || person.ROL || 'Nivel o rol por agregar';
   document.getElementById('person-group').textContent = formatTeamGroup(person.GRUPO);
   document.getElementById('person-initials').textContent = person.INICIALES || 'LS';
-  document.getElementById('person-summary').textContent = values.RESUMEN || '';
-  document.getElementById('person-topic').textContent = values.TEMA_INVESTIGACION || '';
-  document.getElementById('person-research-title').textContent = values.TITULO_INVESTIGACION || '';
-  document.getElementById('person-publications').textContent = values.PUBLICACIONES || '';
+  document.getElementById('person-summary').textContent = values.RESUMEN || 'Información por agregar.';
+  document.getElementById('person-topic').textContent = values.TEMA_INVESTIGACION || 'Información por agregar.';
+  document.getElementById('person-research-title').textContent = values.TITULO_INVESTIGACION || 'Información por agregar.';
+  document.getElementById('person-publications').textContent = values.PUBLICACIONES || 'Información por agregar.';
   const email = String(values.CORREO || '').trim();
   const emailLink = document.getElementById('person-email');
   if (emailLink && email) {
     emailLink.textContent = email.replace(/^mailto:/i, '');
     emailLink.href = /^mailto:/i.test(email) ? email : `mailto:${email}`;
+  } else if (emailLink) {
+    emailLink.textContent = 'Correo institucional por agregar';
+    emailLink.removeAttribute('href');
   }
   const scholar = safeResource(values.GOOGLE_SCHOLAR);
   const scholarLink = document.getElementById('person-scholar');
-  if (scholarLink && scholar) scholarLink.href = scholar;
+  if (scholarLink && scholar) {
+    scholarLink.href = scholar;
+    scholarLink.textContent = 'Consultar Google Scholar ↗';
+    scholarLink.removeAttribute('aria-disabled');
+  } else if (scholarLink) {
+    scholarLink.removeAttribute('href');
+    scholarLink.textContent = 'Vínculo de Google Scholar por agregar';
+    scholarLink.setAttribute('aria-disabled', 'true');
+  }
   document.querySelectorAll('[data-profile-field]').forEach((element) => {
-    const value = values[element.dataset.profileField];
-    element.hidden = !String(value || '').trim() || (element.dataset.profileField === 'GOOGLE_SCHOLAR' && !scholar);
+    element.hidden = false;
   });
   if (details) details.hidden = false;
   if (status) {
