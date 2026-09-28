@@ -15,14 +15,15 @@
 #contacto_direccion{white-space:pre-line}
 
 /* Identidad institucional y banner fijo */
-.page-shell,.detail-shell{padding-top:92px}
-.sidebar{top:92px}
+.page-shell,.detail-shell{padding-top:84px}
+.sidebar{top:84px}
 .sidebar>.brand{display:none}
-.brand-banner{position:fixed;z-index:60;top:0;left:0;right:0;height:92px;padding:0 4vw 0 30px;display:flex;align-items:center;justify-content:space-between;gap:28px;color:var(--white);background:#01508e;border-bottom:1px solid rgba(255,255,255,.2)}
-.brand-banner>a{height:70px;display:flex;align-items:center;flex-shrink:0}
-.brand-banner img{width:auto;height:70px;display:block;object-fit:contain}
-.brand-banner p{margin:0;display:flex;align-items:center;gap:18px;color:rgba(255,255,255,.82);font:500 .58rem "DM Mono",monospace;letter-spacing:.1em;text-align:right;text-transform:uppercase}
-.brand-banner p span{padding-left:18px;color:#b0f1cc;border-left:1px solid rgba(255,255,255,.3);white-space:nowrap}
+.brand-banner{position:fixed;z-index:60;top:0;left:0;right:0;height:84px;padding:0 clamp(24px,4vw,64px) 0 clamp(22px,3vw,46px);display:flex;align-items:center;justify-content:space-between;gap:32px;color:var(--white);background:radial-gradient(circle at 18% -60%,rgba(176,241,204,.18),transparent 38%),linear-gradient(105deg,#015b9b 0%,#01508e 58%,#073c70 100%);border-bottom:1px solid rgba(255,255,255,.18);box-shadow:0 8px 26px rgba(12,8,43,.18)}
+.brand-banner:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,var(--mint) 0 18%,rgba(176,241,204,.25) 42%,transparent 76%)}
+.brand-banner>a{height:62px;padding-right:30px;display:flex;align-items:center;flex-shrink:0;border-right:1px solid rgba(255,255,255,.2)}
+.brand-banner img{width:auto;height:57px;display:block;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(12,8,43,.16))}
+.brand-banner p{margin:0;display:flex;align-items:center;justify-content:flex-end;gap:20px;color:rgba(255,255,255,.86);font:500 .57rem "DM Mono",monospace;letter-spacing:.11em;text-align:right;text-transform:uppercase}
+.brand-banner p span{padding:8px 11px;color:var(--mint);background:rgba(12,8,43,.18);border:1px solid rgba(176,241,204,.35);border-radius:999px;white-space:nowrap}
 .institution-strip{min-height:46px;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;gap:20px;color:rgba(12,8,43,.58);background:var(--white);border-bottom:1px solid rgba(12,8,43,.12);font:500 .54rem "DM Mono",monospace;letter-spacing:.09em;text-transform:uppercase}
 .institution-strip>div{display:flex;align-items:center;gap:12px}.institution-strip a{color:var(--blue);font-weight:700}.institution-strip i{width:1px;height:15px;background:rgba(12,8,43,.22)}
 .institution-strip+.hero{min-height:calc(100vh - 138px)}
@@ -138,7 +139,7 @@
 .project-page{padding-top:90px;padding-bottom:90px}
 
 @media(max-width:1050px){
-  .brand-banner p{font-size:.52rem}
+  .brand-banner p{max-width:58%;font-size:.5rem;line-height:1.5}
   .hero-copy{width:min(720px,76%)}
   .hero-photo{left:0}
   .institutional-feature{grid-template-columns:1fr 1fr}
@@ -149,14 +150,14 @@
   .home-summary>header{grid-template-columns:1fr;gap:24px}.home-summary>header>p:last-child{max-width:560px}
 }
 @media(max-width:760px){
-  .page-shell,.detail-shell{padding-top:72px}
+  .page-shell,.detail-shell{padding-top:68px}
   .sidebar{top:0;justify-content:flex-end;background:transparent;border-right:0;pointer-events:none}
   .sidebar .menu-toggle,.sidebar .site-nav{pointer-events:auto}
-  .brand-banner{top:0;left:0;height:72px;padding:0 74px 0 16px;gap:12px}
-  .brand-banner>a,.brand-banner img{height:58px}
+  .brand-banner{top:0;left:0;height:68px;padding:0 68px 0 14px;gap:12px}
+  .brand-banner>a{height:54px;padding-right:0;border-right:0}.brand-banner img{height:50px}
   .brand-banner p{display:none}
   .institution-strip{min-height:54px;padding:10px 20px;align-items:flex-start;flex-direction:column;justify-content:center;gap:4px;font-size:.48rem}
-  .institution-strip+.hero{min-height:calc(100svh - 126px)}
+  .institution-strip+.hero{min-height:calc(100svh - 122px)}
   .institution-strip>div{gap:8px}
   .hero-copy{width:100%;max-width:100%}
   .hero-topline span:last-child{display:none}
@@ -193,7 +194,7 @@
 
 /* Menú flotante desplegable */
 .page-shell,.detail-shell{margin-left:0}
-.sidebar{inset:112px auto auto 22px;width:60px;height:auto;padding:8px;display:flex;align-items:stretch;gap:4px;color:var(--paper);background:rgba(12,8,43,.96);border:1px solid rgba(233,238,248,.2);border-radius:18px;box-shadow:0 18px 50px rgba(12,8,43,.28);backdrop-filter:blur(14px);overflow:hidden;transition:width .28s ease,padding .28s ease,border-radius .28s ease}
+.sidebar{inset:102px auto auto 22px;width:60px;height:auto;padding:8px;display:flex;align-items:stretch;gap:4px;color:var(--paper);background:rgba(12,8,43,.96);border:1px solid rgba(233,238,248,.2);border-radius:18px;box-shadow:0 18px 50px rgba(12,8,43,.28);backdrop-filter:blur(14px);overflow:hidden;transition:width .28s ease,padding .28s ease,border-radius .28s ease}
 .sidebar.is-expanded{width:280px;padding:12px;border-radius:22px}
 .menu-toggle{width:42px;height:42px;min-width:42px;padding:11px;display:grid;align-content:center;align-self:flex-start;gap:5px;border:1px solid rgba(233,238,248,.22);border-radius:12px;background:rgba(233,238,248,.06);cursor:pointer}
 .menu-toggle span{height:1px;display:block;background:var(--paper);transform-origin:center;transition:transform .22s ease,opacity .22s ease}
@@ -210,7 +211,7 @@
 .menu-toggle:focus-visible,.site-nav a:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
 
 @media(max-width:760px){
-  .sidebar{inset:84px 12px auto auto;width:54px;height:auto;padding:6px;flex-direction:column;align-items:stretch;justify-content:flex-start;background:rgba(12,8,43,.96);border-right:1px solid rgba(233,238,248,.2);pointer-events:auto}
+  .sidebar{inset:80px 12px auto auto;width:54px;height:auto;padding:6px;flex-direction:column;align-items:stretch;justify-content:flex-start;background:rgba(12,8,43,.96);border-right:1px solid rgba(233,238,248,.2);pointer-events:auto}
   .sidebar.is-expanded{width:min(340px,calc(100vw - 24px));padding:10px}
   .sidebar .menu-toggle,.sidebar .site-nav{pointer-events:auto}
   .menu-toggle{width:40px;height:40px;min-width:40px}
