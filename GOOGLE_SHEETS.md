@@ -4,7 +4,7 @@ LABSEMCO usa una estructura híbrida: el diseño permanece en los archivos de la
 
 ## Estado actual
 
-- `Contenido`, `Carrusel`, `Investigación`, `Proyectos`, `Equipo` y `Enlaces` están conectados a la hoja compartida.
+- `Contenido`, `Carrusel`, `Investigación`, `Proyectos`, `Equipo` y `Enlaces` están conectados a la hoja compartida. `Divulgación` queda preparada para conectarse al publicar su pestaña.
 - Las direcciones CSV se encuentran en `sheets-config.js` y usan el identificador `gid` propio de cada pestaña.
 - La página conserva el contenido local de respaldo si Google Sheets no está disponible.
 - Si se crea otra pestaña o se reemplaza la hoja, debe verificarse su nuevo identificador `gid` antes de cambiar la configuración.
@@ -14,8 +14,9 @@ LABSEMCO usa una estructura híbrida: el diseño permanece en los archivos de la
 - `Contenido`: textos únicos de las seis páginas. Conserva los valores de `ID` y edita `CONTENIDO` o `ACTIVO`.
 - `Carrusel`: cada fila crea una diapositiva nueva en la portada.
 - `Investigación`: cada fila crea una línea de investigación.
-- `Proyectos`: cada fila crea una tarjeta de proyecto. Escribe el vínculo del repositorio en `ENLACE`; `TEXTO_ENLACE` es opcional y cambia el texto del botón.
+- `Proyectos`: cada fila crea una tarjeta de proyecto. `CATEGORIA` y `SUBCATEGORIA` organizan el directorio; `COLABORADORES` muestra quién participa. Escribe el vínculo del repositorio en `ENLACE`; `TEXTO_ENLACE` es opcional.
 - `Equipo`: cada fila crea una persona en el directorio y su ficha individual. `GRUPO` controla su sección y acepta `doctor`, `miembros`, `estudiantes`, `maestria`, `doctorados`, `investigadores asociados`, `visitantes`, `instituciones colaboradoras` o cualquier categoría nueva.
+- `Divulgación`: cada fila crea un evento o actividad. Usa `TIPO`, `TITULO`, `FECHA`, `LUGAR`, `DESCRIPCION`, `ENLACE` y, opcionalmente, `TEXTO_ENLACE`.
 - `Enlaces`: cada fila crea un enlace dentro de la sección indicada.
 - `Guía`: instrucciones breves; no se publica.
 
@@ -25,7 +26,7 @@ Conserva sin cambios la primera fila de encabezados. Agrega personas, proyectos 
 
 En `Equipo`, conserva un `ID` único y estable porque forma el enlace de la ficha (`persona.html?id=ID`). Los campos `NIVEL_ROL`, `TEMA_INVESTIGACION`, `TITULO_INVESTIGACION`, `RESUMEN`, `CORREO`, `PUBLICACIONES` y `GOOGLE_SCHOLAR` completan el perfil. Si alguno queda vacío, ese bloque simplemente no aparece. `ROL` y `AREA` siguen funcionando como respaldo de `NIVEL_ROL` y `TEMA_INVESTIGACION`. La categoría `doctor` representa al líder del laboratorio, pero puede cambiarse editando `GRUPO`.
 
-En `Proyectos`, `ENLACE` acepta direcciones completas como `https://github.com/organizacion/proyecto`. Si `TEXTO_ENLACE` queda vacío, la web mostrará **Ver repositorio ↗**. Cuando `ENLACE` está vacío, la tarjeta se muestra sin botón.
+En `Proyectos`, `ENLACE` acepta direcciones completas como `https://github.com/organizacion/proyecto`. Si `TEXTO_ENLACE` queda vacío, la web mostrará **Ver repositorio ↗**. Cuando `ENLACE` está vacío, la tarjeta se muestra sin botón. Si `SUBCATEGORIA` o `COLABORADORES` quedan vacíos, la tarjeta sigue funcionando.
 
 ## Publicar las pestañas
 
@@ -33,7 +34,7 @@ En `Proyectos`, `ENLACE` acepta direcciones completas como `https://github.com/o
 2. Abre **Archivo → Compartir → Publicar en la web**.
 3. Elige una pestaña y selecciona **Valores separados por comas (.csv)**.
 4. Copia el vínculo publicado.
-5. Repite los pasos para `Contenido`, `Carrusel`, `Investigación`, `Proyectos`, `Equipo` y `Enlaces`.
+5. Repite los pasos para `Contenido`, `Carrusel`, `Investigación`, `Proyectos`, `Equipo`, `Divulgación` y `Enlaces`.
 6. Pega cada vínculo en su lugar correspondiente dentro de `sheets-config.js`.
 7. Abre el sitio mediante un servidor local y confirma en la consola del navegador que no aparezca el aviso `Faltan columnas`.
 
@@ -46,6 +47,7 @@ window.LABSEMCO_SHEETS = {
   investigacion: 'URL CSV DE INVESTIGACIÓN',
   proyectos: 'URL CSV DE PROYECTOS',
   equipo: 'URL CSV DE EQUIPO',
+  divulgacion: 'URL CSV DE DIVULGACIÓN',
   enlaces: 'URL CSV DE ENLACES',
 };
 ```

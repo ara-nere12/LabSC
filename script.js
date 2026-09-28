@@ -192,12 +192,20 @@ const loadProjects = async () => {
   const rows = await fetchSheet('proyectos', ['ID', 'CATEGORIA', 'TITULO', 'DESCRIPCION', 'ETIQUETAS', 'ACTIVO', 'ORDEN']);
   const activeRows = rows && sortSheetRows(rows.filter((row) => isActiveSheetRow(row.ACTIVO)));
   if (!activeRows?.length) return false;
-  const cards = activeRows.map((row) => {
+  const createProjectCard = (row) => {
     const article = document.createElement('article');
     article.className = 'impact-card';
     const id = safeDomId(`proyecto-${row.ID}`);
     if (id) article.id = id;
-    article.append(createTextElement('span', row.CATEGORIA), createTextElement('h3', row.TITULO), createTextElement('p', row.DESCRIPCION), createTextElement('small', row.ETIQUETAS));
+    if (row.SUBCATEGORIA) article.append(createTextElement('span', row.SUBCATEGORIA));
+    article.append(createTextElement('h3', row.TITULO), createTextElement('p', row.DESCRIPCION));
+    if (row.COLABORADORES) {
+      const collaborators = document.createElement('p');
+      collaborators.className = 'project-collaborators';
+      collaborators.append(createTextElement('b', 'Colaboran'), document.createTextNode(` ${row.COLABORADORES}`));
+      article.append(collaborators);
+    }
+    article.append(createTextElement('small', row.ETIQUETAS));
     const projectUrl = safeResource(row.ENLACE);
     if (projectUrl) {
       const link = createTextElement('a', row.TEXTO_ENLACE || 'Ver repositorio ↗', 'project-link');
@@ -209,8 +217,39 @@ const loadProjects = async () => {
       article.append(link);
     }
     return article;
+  };
+  const categories = new Map();
+  activeRows.forEach((row) => {
+    const category = String(row.CATEGORIA || 'Otros proyectos').trim();
+    if (!categories.has(category)) categories.set(category, []);
+    categories.get(category).push(row);
   });
-  container.replaceChildren(...cards);
+  const categorySections = [...categories.entries()].map(([category, categoryRows]) => {
+    const section = document.createElement('section');
+    section.className = 'project-category';
+    const heading = document.createElement('header');
+    heading.append(createTextElement('p', 'Categoría'), createTextElement('h2', category));
+    const subcategories = new Map();
+    categoryRows.forEach((row) => {
+      const subcategory = String(row.SUBCATEGORIA || '').trim();
+      if (!subcategories.has(subcategory)) subcategories.set(subcategory, []);
+      subcategories.get(subcategory).push(row);
+    });
+    const content = [...subcategories.entries()].map(([subcategory, subcategoryRows]) => {
+      const block = document.createElement('div');
+      block.className = 'project-subcategory';
+      if (subcategory) block.append(createTextElement('h3', subcategory));
+      const grid = document.createElement('div');
+      grid.className = 'impact-grid';
+      grid.append(...subcategoryRows.map(createProjectCard));
+      block.append(grid);
+      return block;
+    });
+    section.append(heading, ...content);
+    return section;
+  });
+  container.className = 'project-directory';
+  container.replaceChildren(...categorySections);
   return true;
 };
 
@@ -275,9 +314,10 @@ const loadTeam = async () => {
     groups.get(canonicalKey).rows.push(row);
   });
   const priority = { doctor: 0, miembros: 1, estudiantes: 2, maestria: 3, doctorados: 4, 'investigadores asociados': 5, visitantes: 6, 'instituciones colaboradoras': 7 };
-  const sections = [...groups.entries()].sort(([groupA], [groupB]) => (priority[groupA] ?? 99) - (priority[groupB] ?? 99)).map(([, group]) => {
+  const sections = [...groups.entries()].sort(([groupA], [groupB]) => (priority[groupA] ?? 99) - (priority[groupB] ?? 99)).map(([groupKey, group]) => {
     const section = document.createElement('div');
     section.className = 'team-list-section';
+    section.id = `grupo-${groupKey.replace(/\s+/g, '-')}`;
     const header = document.createElement('header');
     const count = `${String(group.rows.length).padStart(2, '0')} ${group.rows.length === 1 ? 'integrante' : 'integrantes'}`;
     header.append(createTextElement('h2', group.label), createTextElement('span', count));
@@ -345,6 +385,30 @@ const loadPersonProfile = async () => {
     status.innerHTML = '<p>Este perfil ya está conectado; la información complementaria se añadirá desde la pestaña Equipo.</p>';
   }
   document.title = `${person.NOMBRE} · LABSEMCO`;
+  return true;
+};
+
+const loadEvents = async () => {
+  const container = document.getElementById('events-list');
+  if (!container) return false;
+  const rows = await fetchSheet('divulgacion', ['ID', 'TIPO', 'TITULO', 'FECHA', 'LUGAR', 'DESCRIPCION', 'ENLACE', 'ACTIVO', 'ORDEN']);
+  const activeRows = rows && sortSheetRows(rows.filter((row) => isActiveSheetRow(row.ACTIVO)));
+  if (!activeRows?.length) return false;
+  const events = activeRows.map((row) => {
+    const article = document.createElement('article');
+    article.className = 'event-card';
+    const meta = createTextElement('p', [row.FECHA, row.LUGAR].filter(Boolean).join(' · '), 'event-meta');
+    article.append(createTextElement('small', row.TIPO || 'Evento'), createTextElement('h3', row.TITULO), meta, createTextElement('p', row.DESCRIPCION));
+    const url = safeResource(row.ENLACE);
+    if (url) {
+      const link = createTextElement('a', row.TEXTO_ENLACE || 'Más información ↗', 'project-link');
+      link.href = url;
+      if (/^https?:\/\//i.test(url)) { link.target = '_blank'; link.rel = 'noopener noreferrer'; }
+      article.append(link);
+    }
+    return article;
+  });
+  container.replaceChildren(...events);
   return true;
 };
 
@@ -452,7 +516,7 @@ if ('IntersectionObserver' in window && inPageNavLinks.length) {
 }
 
 const initializeContent = async () => {
-  const results = await Promise.all([loadStaticContent(), loadCarousel(), loadResearch(), loadProjects(), loadTeam(), loadPersonProfile(), loadLinks()]);
+  const results = await Promise.all([loadStaticContent(), loadCarousel(), loadResearch(), loadProjects(), loadTeam(), loadPersonProfile(), loadEvents(), loadLinks()]);
   document.documentElement.dataset.contentSource = results.some(Boolean) ? 'google-sheets' : 'local';
   initCarousel();
 };

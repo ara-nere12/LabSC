@@ -9,6 +9,7 @@ Sitio estático del Laboratorio de Semántica Computacional del Centro de Invest
 - `investigacion.html`: líneas de investigación.
 - `proyectos.html`: proyectos e impacto.
 - `equipo.html`: directorio organizado automáticamente mediante las categorías editables de la hoja.
+- `divulgacion.html`: eventos, actividades y publicaciones de divulgación.
 - `persona.html`: ficha dinámica reutilizada para todos los integrantes.
 - `contacto.html`: ubicación y contacto institucional.
 - `assets/`: imágenes usadas por el sitio.
@@ -35,7 +36,7 @@ python -m http.server 8000
 
 El sitio funciona aun cuando Google Sheets no responde. Cada página conserva contenido local y lo sustituye únicamente cuando la colección correspondiente está publicada y configurada.
 
-Las seis colecciones están conectadas a la hoja compartida de Google Sheets. Si cambia la hoja de origen o alguna pestaña, actualiza su dirección CSV en `sheets-config.js`.
+Las siete colecciones pueden conectarse a la hoja compartida de Google Sheets. Si cambia la hoja de origen o alguna pestaña, actualiza su dirección CSV en `sheets-config.js`.
 
 ## Publicación
 
@@ -47,7 +48,7 @@ Si el sitio se publica en otra ubicación, actualiza las etiquetas `canonical`, 
 
 Antes de publicar:
 
-1. Verifica las siete páginas y `404.html` en computadora y teléfono.
+1. Verifica las ocho páginas, la ficha dinámica `persona.html` y `404.html` en computadora y teléfono.
 2. Confirma que no haya errores en la consola del navegador.
 3. Comprueba las direcciones CSV configuradas.
 4. Revisa que los nombres, cargos, proyectos y datos de contacto sigan vigentes.
