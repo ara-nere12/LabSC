@@ -4,7 +4,7 @@ window.LABSEMCO_SHEETS = {
   carrusel: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=1895943692',
   investigacion: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=1750833558',
   proyectos: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=828568870',
-  divulgacion: '', // Pega aquí el CSV publicado de la nueva pestaña Divulgación.
+  divulgacion: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=313608752',
   equipo: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=949164931',
   enlaces: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=1739423085',
   diseno: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=1413997295',

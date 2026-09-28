@@ -4,7 +4,7 @@ LABSEMCO usa una estructura híbrida: el diseño permanece en los archivos de la
 
 ## Estado actual
 
-- `Contenido`, `Carrusel`, `Investigación`, `Proyectos`, `Equipo`, `Enlaces` y `Diseño` están conectados a la hoja compartida. `Divulgación` queda preparada para conectarse al publicar su pestaña.
+- `Contenido`, `Carrusel`, `Investigación`, `Proyectos`, `Equipo`, `Divulgación`, `Enlaces` y `Diseño` están conectados a la hoja compartida.
 - Las direcciones CSV se encuentran en `sheets-config.js` y usan el identificador `gid` propio de cada pestaña.
 - La página conserva el contenido local de respaldo si Google Sheets no está disponible.
 - Si se crea otra pestaña o se reemplaza la hoja, debe verificarse su nuevo identificador `gid` antes de cambiar la configuración.
