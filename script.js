@@ -233,6 +233,14 @@ const formatTeamGroup = (value) => {
   return label.charAt(0).toLocaleUpperCase('es-MX') + label.slice(1);
 };
 
+const classifyTeamLevel = (value) => {
+  const normalized = normalizeSheetValue(value);
+  if (normalized.includes('doctorado') || normalized.includes('postdoctor')) return { key: 'doctorado', label: 'Doctorado', priority: 0 };
+  if (normalized.includes('maestr')) return { key: 'maestria', label: 'Maestría', priority: 1 };
+  if (normalized.includes('licenciatura') || /(^|\s)lic\.?($|\s|\/)/.test(normalized)) return { key: 'licenciatura', label: 'Licenciatura', priority: 2 };
+  return { key: 'rol', label: 'Rol institucional', priority: 3 };
+};
+
 const createPersonRow = (row) => {
   const anchor = document.createElement('a');
   anchor.className = 'team-row';
@@ -266,10 +274,24 @@ const loadTeam = async () => {
     const header = document.createElement('header');
     const count = `${String(group.rows.length).padStart(2, '0')} ${group.rows.length === 1 ? 'integrante' : 'integrantes'}`;
     header.append(createTextElement('h2', group.label), createTextElement('span', count));
-    const list = document.createElement('div');
-    list.className = 'team-list';
-    list.append(...group.rows.map(createPersonRow));
-    section.append(header, list);
+    const levels = new Map();
+    group.rows.forEach((row) => {
+      const level = classifyTeamLevel(row.NIVEL_ROL || row.ROL);
+      if (!levels.has(level.key)) levels.set(level.key, { ...level, rows: [] });
+      levels.get(level.key).rows.push(row);
+    });
+    const levelBlocks = [...levels.values()].sort((levelA, levelB) => levelA.priority - levelB.priority).map((level) => {
+      const block = document.createElement('div');
+      block.className = 'team-level-block';
+      const levelHeader = document.createElement('header');
+      levelHeader.append(createTextElement('h3', level.label), createTextElement('span', String(level.rows.length).padStart(2, '0')));
+      const list = document.createElement('div');
+      list.className = 'team-list';
+      list.append(...level.rows.map(createPersonRow));
+      block.append(levelHeader, list);
+      return block;
+    });
+    section.append(header, ...levelBlocks);
     return section;
   });
   directory.replaceChildren(...sections);

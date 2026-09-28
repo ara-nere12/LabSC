@@ -23,7 +23,7 @@ En las pestañas repetibles, `ACTIVO=SI` muestra la fila, `ACTIVO=NO` la oculta 
 
 Conserva sin cambios la primera fila de encabezados. Agrega personas, proyectos y demás registros a partir de la fila 2.
 
-En `Equipo`, conserva un `ID` único y estable porque forma el enlace de la ficha (`persona.html?id=ID`). Los campos `NIVEL_ROL`, `TEMA_INVESTIGACION`, `TITULO_INVESTIGACION`, `RESUMEN`, `CORREO`, `PUBLICACIONES` y `GOOGLE_SCHOLAR` completan el perfil. Si alguno queda vacío, ese bloque simplemente no aparece. `ROL` y `AREA` siguen funcionando como respaldo de `NIVEL_ROL` y `TEMA_INVESTIGACION`.
+En `Equipo`, conserva un `ID` único y estable porque forma el enlace de la ficha (`persona.html?id=ID`). Los campos `NIVEL_ROL`, `TEMA_INVESTIGACION`, `TITULO_INVESTIGACION`, `RESUMEN`, `CORREO`, `PUBLICACIONES` y `GOOGLE_SCHOLAR` completan el perfil. Si alguno queda vacío, ese bloque simplemente no aparece. `NIVEL_ROL` también clasifica a la persona dentro de Doctorado, Maestría, Licenciatura o Rol institucional; `ROL` y `AREA` siguen funcionando como respaldo de `NIVEL_ROL` y `TEMA_INVESTIGACION`.
 
 En `Proyectos`, `ENLACE` acepta direcciones completas como `https://github.com/organizacion/proyecto`. Si `TEXTO_ENLACE` queda vacío, la web mostrará **Ver repositorio ↗**. Cuando `ENLACE` está vacío, la tarjeta se muestra sin botón.
 
