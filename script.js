@@ -308,7 +308,7 @@ const fallbackTeam = [
 
 const formatTeamGroup = (value) => {
   const normalized = normalizeSheetValue(value);
-  if (['doctor', 'dr', 'lider', 'liderazgo', 'direccion', 'lider del proyecto', 'lider del laboratorio'].includes(normalized)) return 'Doctor';
+  if (['doctor', 'dr', 'lider', 'liderazgo', 'direccion', 'lider del proyecto', 'lider del laboratorio'].includes(normalized)) return 'Líder del laboratorio';
   if (['miembro', 'miembros', 'colaborador', 'colaboradores'].includes(normalized)) return 'Miembros';
   if (['estudiante', 'estudiantes', 'licenciatura', 'licenciaturas'].includes(normalized)) return 'Estudiantes';
   if (normalized === 'maestria') return 'Maestría';
@@ -333,7 +333,7 @@ const canonicalTeamGroup = (value) => {
 };
 
 const defaultTeamGroups = [
-  { key: 'doctor', label: 'Doctor' },
+  { key: 'doctor', label: 'Líder del laboratorio' },
   { key: 'miembros', label: 'Miembros' },
   { key: 'estudiantes', label: 'Estudiantes' },
   { key: 'maestria', label: 'Maestría' },
