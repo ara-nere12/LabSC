@@ -131,11 +131,11 @@ const loadDesign = async () => {
   const rows = await fetchSheet('diseno', ['CLAVE', 'TAMAÑO_PX']);
   if (!rows) return false;
   const designRules = {
-    titulo_principal: { property: '--font-title-main', min: 48, max: 120 },
-    titulo_seccion: { property: '--font-title-section', min: 36, max: 82 },
-    subtitulo: { property: '--font-subtitle', min: 22, max: 48 },
-    texto_normal: { property: '--font-body', min: 14, max: 24 },
-    texto_pequeno: { property: '--font-small', min: 11, max: 18 },
+    titulo_principal: { property: '--font-title-main', min: 36, max: 160 },
+    titulo_seccion: { property: '--font-title-section', min: 28, max: 120 },
+    subtitulo: { property: '--font-subtitle', min: 18, max: 72 },
+    texto_normal: { property: '--font-body', min: 12, max: 36 },
+    texto_pequeno: { property: '--font-small', min: 9, max: 28 },
   };
   let applied = false;
   rows.forEach((row) => {
@@ -275,21 +275,42 @@ const loadProjects = async () => {
   return true;
 };
 
+const TEAM_HEADERS = [
+  'ID',
+  'GRUPO',
+  'INICIALES',
+  'NOMBRE',
+  'ROL',
+  'AREA',
+  'ACTIVO',
+  'ORDEN',
+  'NIVEL_ROL',
+  'TEMA_INVESTIGACION',
+  'TITULO_INVESTIGACION',
+  'RESUMEN',
+  'CORREO',
+  'PUBLICACIONES',
+  'GOOGLE_SCHOLAR',
+  'FOTO',
+];
+
 const fallbackTeam = [
-  { ID: 'gerardo', GRUPO: 'colaboradores', INICIALES: 'GT', NOMBRE: 'Dr. Gerardo Mauricio Toledo Acosta', ROL: 'Investigación postdoctoral', AREA: 'Matemáticas puras y aplicadas', ACTIVO: 'SI', ORDEN: '1' },
-  { ID: 'markus', GRUPO: 'colaboradores', INICIALES: 'MM', NOMBRE: 'Dr. Markus Mueller', ROL: 'Investigador CInC', AREA: 'Sistemas complejos', ACTIVO: 'SI', ORDEN: '2' },
-  { ID: 'asela', GRUPO: 'colaboradores', INICIALES: 'AR', NOMBRE: 'Dra. Asela Reig Alamillo', ROL: 'Investigadora CINCCO', AREA: 'Lingüística cognitiva', ACTIVO: 'SI', ORDEN: '3' },
-  { ID: 'david', GRUPO: 'estudiantes', INICIALES: 'M', NOMBRE: 'David Torres Moreno', ROL: 'Maestría', AREA: 'Ciencias Cognitivas · CINCCO-UAEM', ACTIVO: 'SI', ORDEN: '1' },
-  { ID: 'mark', GRUPO: 'estudiantes', INICIALES: 'M', NOMBRE: 'Mark Joseph Hernández Estrada', ROL: 'Maestría', AREA: 'Optimización y Cómputo Aplicado · FCAeI-UAEM', ACTIVO: 'SI', ORDEN: '2' },
-  { ID: 'eliseo', GRUPO: 'estudiantes', INICIALES: 'L', NOMBRE: 'Eliseo Morales González', ROL: 'Licenciatura', AREA: 'Ciencias · IICBA-UAEM', ACTIVO: 'SI', ORDEN: '3' },
-  { ID: 'bolivar', GRUPO: 'estudiantes', INICIALES: 'L', NOMBRE: 'Bolívar Martínez Zaldívar', ROL: 'Licenciatura', AREA: 'Matemáticas · FC-UNAM', ACTIVO: 'SI', ORDEN: '4' },
+  { ID: 'jorge', GRUPO: 'doctor', INICIALES: 'JH', NOMBRE: 'Dr. Jorge Hermosillo Valadez', ROL: 'Líder del Laboratorio', AREA: 'Computación y Robotica', NIVEL_ROL: 'Líder del Laboratorio', TEMA_INVESTIGACION: 'Computación y Robotica', ACTIVO: 'SI', ORDEN: '1' },
+  { ID: 'gerardo', GRUPO: 'miembros', INICIALES: 'GT', NOMBRE: 'Dr. Gerardo Mauricio Toledo Acosta', ROL: 'Investigación postdoctoral', AREA: 'Matemáticas puras y aplicadas', NIVEL_ROL: 'Investigación postdoctoral', TEMA_INVESTIGACION: 'Matemáticas puras y aplicadas', ACTIVO: 'SI', ORDEN: '1' },
+  { ID: 'markus', GRUPO: 'miembros', INICIALES: 'MM', NOMBRE: 'Dr. Markus Mueller', ROL: 'Investigador CInC', AREA: 'Sistemas complejos', NIVEL_ROL: 'Investigador CInC', TEMA_INVESTIGACION: 'Sistemas complejos', ACTIVO: 'SI', ORDEN: '2' },
+  { ID: 'asela', GRUPO: 'miembros', INICIALES: 'AR', NOMBRE: 'Dra. Asela Reig Alamillo', ROL: 'Investigadora CINCCO', AREA: 'Lingüística cognitiva', NIVEL_ROL: 'Investigadora CINCCO', TEMA_INVESTIGACION: 'Lingüística cognitiva', ACTIVO: 'SI', ORDEN: '3' },
+  { ID: 'bruno', GRUPO: 'estudiantes', INICIALES: 'BS', NOMBRE: 'Bruno Saint Martin Padilla', ROL: 'Estudiante', AREA: 'Clustering', NIVEL_ROL: 'Estudiante', TEMA_INVESTIGACION: 'Clustering', ACTIVO: 'SI', ORDEN: '1' },
+  { ID: 'david', GRUPO: 'maestria', INICIALES: 'M', NOMBRE: 'David Torres Moreno', ROL: 'Maestría', AREA: 'Ciencias Cognitivas · CINCCO-UAEM', NIVEL_ROL: 'Maestría', TEMA_INVESTIGACION: 'Ciencias Cognitivas · CINCCO-UAEM', ACTIVO: 'SI', ORDEN: '1' },
+  { ID: 'mark', GRUPO: 'maestria', INICIALES: 'M', NOMBRE: 'Mark Joseph Hernández Estrada', ROL: 'Maestría', AREA: 'Optimización y Cómputo Aplicado · FCAeI-UAEM', NIVEL_ROL: 'Maestría', TEMA_INVESTIGACION: 'Optimización y Cómputo Aplicado · FCAeI-UAEM', ACTIVO: 'SI', ORDEN: '2' },
+  { ID: 'eliseo', GRUPO: 'estudiantes', INICIALES: 'L', NOMBRE: 'Eliseo Morales González', ROL: 'Licenciatura', AREA: 'Ciencias · IICBA-UAEM', NIVEL_ROL: 'Licenciatura', TEMA_INVESTIGACION: 'Ciencias · IICBA-UAEM', ACTIVO: 'SI', ORDEN: '3' },
+  { ID: 'bolivar', GRUPO: 'estudiantes', INICIALES: 'L', NOMBRE: 'Bolívar Martínez Zaldívar', ROL: 'Licenciatura', AREA: 'Matemáticas · FC-UNAM', NIVEL_ROL: 'Licenciatura', TEMA_INVESTIGACION: 'Matemáticas · FC-UNAM', ACTIVO: 'SI', ORDEN: '4' },
 ];
 
 const formatTeamGroup = (value) => {
   const normalized = normalizeSheetValue(value);
-  if (['doctor', 'dr', 'lider', 'liderazgo', 'direccion'].includes(normalized)) return 'Doctor';
+  if (['doctor', 'dr', 'lider', 'liderazgo', 'direccion', 'lider del proyecto', 'lider del laboratorio'].includes(normalized)) return 'Doctor';
   if (['miembro', 'miembros', 'colaborador', 'colaboradores'].includes(normalized)) return 'Miembros';
-  if (normalized === 'estudiantes') return 'Estudiantes';
+  if (['estudiante', 'estudiantes', 'licenciatura', 'licenciaturas'].includes(normalized)) return 'Estudiantes';
   if (normalized === 'maestria') return 'Maestría';
   if (['doctorado', 'doctorados'].includes(normalized)) return 'Doctorados';
   if (['investigador asociado', 'investigadores asociados'].includes(normalized)) return 'Investigadores asociados';
@@ -301,14 +322,26 @@ const formatTeamGroup = (value) => {
 
 const canonicalTeamGroup = (value) => {
   const normalized = normalizeSheetValue(value);
-  if (['doctor', 'dr', 'lider', 'liderazgo', 'direccion'].includes(normalized)) return 'doctor';
+  if (['doctor', 'dr', 'lider', 'liderazgo', 'direccion', 'lider del proyecto', 'lider del laboratorio'].includes(normalized)) return 'doctor';
   if (['miembro', 'miembros', 'colaborador', 'colaboradores'].includes(normalized)) return 'miembros';
+  if (['estudiante', 'estudiantes', 'licenciatura', 'licenciaturas'].includes(normalized)) return 'estudiantes';
   if (['doctorado', 'doctorados'].includes(normalized)) return 'doctorados';
   if (['investigador asociado', 'investigadores asociados'].includes(normalized)) return 'investigadores asociados';
   if (['visitante', 'visitantes'].includes(normalized)) return 'visitantes';
   if (['institucion colaboradora', 'instituciones colaboradoras'].includes(normalized)) return 'instituciones colaboradoras';
   return normalized || 'otros integrantes';
 };
+
+const defaultTeamGroups = [
+  { key: 'doctor', label: 'Doctor' },
+  { key: 'miembros', label: 'Miembros' },
+  { key: 'estudiantes', label: 'Estudiantes' },
+  { key: 'maestria', label: 'Maestría' },
+  { key: 'doctorados', label: 'Doctorados' },
+  { key: 'investigadores asociados', label: 'Investigadores asociados' },
+  { key: 'visitantes', label: 'Visitantes' },
+  { key: 'instituciones colaboradoras', label: 'Instituciones colaboradoras' },
+];
 
 const createPersonRow = (row) => {
   const anchor = document.createElement('a');
@@ -326,10 +359,11 @@ const createPersonRow = (row) => {
 const loadTeam = async () => {
   const directory = document.getElementById('team-directory');
   if (!directory) return false;
-  const rows = await fetchSheet('equipo', ['ID', 'GRUPO', 'INICIALES', 'NOMBRE', 'ROL', 'AREA', 'ACTIVO', 'ORDEN']);
-  const activeRows = rows && sortSheetRows(rows.filter((row) => isActiveSheetRow(row.ACTIVO)));
-  if (!activeRows?.length) return false;
-  const groups = new Map();
+  const rows = await fetchSheet('equipo', TEAM_HEADERS);
+  const availableRows = rows?.length ? rows : fallbackTeam;
+  const activeRows = sortSheetRows(availableRows.filter((row) => isActiveSheetRow(row.ACTIVO)));
+  if (!activeRows.length) return false;
+  const groups = new Map(defaultTeamGroups.map(({ key, label }) => [key, { label, rows: [] }]));
   activeRows.forEach((row) => {
     const canonicalKey = canonicalTeamGroup(row.GRUPO);
     if (!groups.has(canonicalKey)) groups.set(canonicalKey, { label: formatTeamGroup(row.GRUPO), rows: [] });
@@ -345,7 +379,13 @@ const loadTeam = async () => {
     header.append(createTextElement('h2', group.label), createTextElement('span', count));
     const list = document.createElement('div');
     list.className = 'team-list';
-    list.append(...group.rows.map(createPersonRow));
+    if (group.rows.length) {
+      list.append(...group.rows.map(createPersonRow));
+    } else {
+      const empty = createTextElement('p', 'Información por agregar.');
+      empty.className = 'team-empty';
+      list.append(empty);
+    }
     section.append(header, list);
     return section;
   });
@@ -357,7 +397,7 @@ const loadPersonProfile = async () => {
   const profile = document.getElementById('person-profile');
   if (!profile) return false;
   const requestedId = new URLSearchParams(window.location.search).get('id')?.trim() || '';
-  const sheetRows = await fetchSheet('equipo', ['ID', 'GRUPO', 'INICIALES', 'NOMBRE', 'ROL', 'AREA', 'ACTIVO', 'ORDEN']);
+  const sheetRows = await fetchSheet('equipo', TEAM_HEADERS);
   const availableRows = sheetRows?.length ? sheetRows : fallbackTeam;
   const person = availableRows.find((row) => isActiveSheetRow(row.ACTIVO) && normalizeSheetValue(row.ID) === normalizeSheetValue(requestedId));
   const status = document.getElementById('profile-status');
@@ -383,6 +423,23 @@ const loadPersonProfile = async () => {
   document.getElementById('person-level').textContent = person.NIVEL_ROL || person.ROL || 'Nivel o rol por agregar';
   document.getElementById('person-group').textContent = formatTeamGroup(person.GRUPO);
   document.getElementById('person-initials').textContent = person.INICIALES || 'LS';
+  const photoImage = document.getElementById('person-photo');
+  const photoPlaceholder = document.getElementById('person-photo-placeholder');
+  const photo = safeResource(person.FOTO);
+  if (photoImage && photoPlaceholder && photo) {
+    photoImage.src = photo;
+    photoImage.alt = `Fotografía de ${person.NOMBRE}`;
+    photoImage.hidden = false;
+    photoPlaceholder.hidden = true;
+    photoImage.onerror = () => {
+      photoImage.hidden = true;
+      photoPlaceholder.hidden = false;
+    };
+  } else if (photoImage && photoPlaceholder) {
+    photoImage.hidden = true;
+    photoImage.removeAttribute('src');
+    photoPlaceholder.hidden = false;
+  }
   document.getElementById('person-summary').textContent = values.RESUMEN || 'Información por agregar.';
   document.getElementById('person-topic').textContent = values.TEMA_INVESTIGACION || 'Información por agregar.';
   document.getElementById('person-research-title').textContent = values.TITULO_INVESTIGACION || 'Información por agregar.';

@@ -25,7 +25,7 @@ En las pestañas repetibles, `ACTIVO=SI` muestra la fila, `ACTIVO=NO` la oculta 
 
 Conserva sin cambios la primera fila de encabezados. Agrega personas, proyectos y demás registros a partir de la fila 2.
 
-En `Equipo`, conserva un `ID` único y estable porque forma el enlace de la ficha (`persona.html?id=ID`). Los campos `NIVEL_ROL`, `TEMA_INVESTIGACION`, `TITULO_INVESTIGACION`, `RESUMEN`, `CORREO`, `PUBLICACIONES` y `GOOGLE_SCHOLAR` completan el perfil. Si alguno queda vacío, ese bloque simplemente no aparece. `ROL` y `AREA` siguen funcionando como respaldo de `NIVEL_ROL` y `TEMA_INVESTIGACION`. La categoría `doctor` representa al líder del laboratorio, pero puede cambiarse editando `GRUPO`.
+En `Equipo`, conserva un `ID` único y estable porque forma el enlace de la ficha (`persona.html?id=ID`). El sitio espera estas 15 columnas: `ID`, `GRUPO`, `INICIALES`, `NOMBRE`, `ROL`, `AREA`, `ACTIVO`, `ORDEN`, `NIVEL_ROL`, `TEMA_INVESTIGACION`, `TITULO_INVESTIGACION`, `RESUMEN`, `CORREO`, `PUBLICACIONES` y `GOOGLE_SCHOLAR`. Los últimos siete campos completan el perfil; cuando falta información, la ficha muestra **Información por agregar**. `ROL` y `AREA` siguen funcionando como respaldo de `NIVEL_ROL` y `TEMA_INVESTIGACION`. La categoría `doctor` representa al líder del laboratorio; `lider del proyecto` y `lider del laboratorio` también se muestran como **Doctor**. `Licenciatura` se agrupa dentro de **Estudiantes**.
 
 En `Proyectos`, `ENLACE` acepta direcciones completas como `https://github.com/organizacion/proyecto`. Si `TEXTO_ENLACE` queda vacío, la web mostrará **Ver repositorio ↗**. Cuando `ENLACE` está vacío, la tarjeta se muestra sin botón. Si `SUBCATEGORIA` o `COLABORADORES` quedan vacíos, la tarjeta sigue funcionando.
 
