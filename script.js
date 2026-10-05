@@ -149,6 +149,38 @@ const loadDesign = async () => {
   return applied;
 };
 
+const pageImageTargets = {
+  'index.html': { id: 'inicio_portada', selector: '.hero-photo img' },
+  'nosotros.html': { id: 'nosotros_portada', selector: '.detail-hero img' },
+  'investigacion.html': { id: 'investigacion_portada', selector: '.detail-hero img' },
+  'proyectos.html': { id: 'proyectos_portada', selector: '.detail-hero img' },
+  'equipo.html': { id: 'equipo_portada', selector: '.detail-hero img' },
+  'divulgacion.html': { id: 'divulgacion_portada', selector: '.detail-hero img' },
+  'contacto.html': { id: 'contacto_portada', selector: '.detail-hero img' },
+};
+
+const loadPageImage = async () => {
+  const pageName = window.location.pathname.split('/').pop() || 'index.html';
+  const targetConfig = pageImageTargets[pageName];
+  if (!targetConfig) return false;
+  const image = document.querySelector(targetConfig.selector);
+  if (!(image instanceof HTMLImageElement)) return false;
+  const rows = await fetchSheet('imagenes', ['ID', 'PAGINA', 'USO', 'IMAGEN', 'ALT', 'ACTIVO']);
+  const row = rows?.find((item) => normalizeSheetValue(item.ID) === targetConfig.id && isActiveSheetRow(item.ACTIVO));
+  const source = safeResource(row?.IMAGEN);
+  if (!row || !source) return false;
+  const fallbackSource = image.getAttribute('src');
+  const fallbackAlt = image.alt;
+  image.onerror = () => {
+    image.onerror = null;
+    if (fallbackSource) image.src = fallbackSource;
+    image.alt = fallbackAlt;
+  };
+  image.src = source;
+  image.alt = row.ALT || fallbackAlt;
+  return true;
+};
+
 const loadCarousel = async () => {
   const track = document.getElementById('carousel-list');
   const dots = document.querySelector('.carousel-dots');
@@ -605,7 +637,7 @@ if ('IntersectionObserver' in window && inPageNavLinks.length) {
 }
 
 const initializeContent = async () => {
-  const results = await Promise.all([loadDesign(), loadStaticContent(), loadCarousel(), loadResearch(), loadProjects(), loadTeam(), loadPersonProfile(), loadEvents(), loadLinks()]);
+  const results = await Promise.all([loadDesign(), loadPageImage(), loadStaticContent(), loadCarousel(), loadResearch(), loadProjects(), loadTeam(), loadPersonProfile(), loadEvents(), loadLinks()]);
   document.documentElement.dataset.contentSource = results.some(Boolean) ? 'google-sheets' : 'local';
   initCarousel();
 };

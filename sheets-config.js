@@ -8,4 +8,5 @@ window.LABSEMCO_SHEETS = {
   equipo: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=949164931',
   enlaces: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=1739423085',
   diseno: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=1413997295',
+  imagenes: 'https://docs.google.com/spreadsheets/d/1wrOwQuTQsgJDDiqg7D2EynrWt_hsMuCCRSEe1CYRNOo/gviz/tq?tqx=out:csv&gid=1837462910',
 };

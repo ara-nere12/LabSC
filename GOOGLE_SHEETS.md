@@ -4,7 +4,7 @@ LABSEMCO usa una estructura híbrida: el diseño permanece en los archivos de la
 
 ## Estado actual
 
-- `Contenido`, `Carrusel`, `Investigación`, `Proyectos`, `Equipo`, `Divulgación`, `Enlaces` y `Diseño` están conectados a la hoja compartida.
+- `Contenido`, `Carrusel`, `Investigación`, `Proyectos`, `Equipo`, `Divulgación`, `Enlaces`, `Diseño` e `Imágenes` están conectados a la hoja compartida.
 - Las direcciones CSV se encuentran en `sheets-config.js` y usan el identificador `gid` propio de cada pestaña.
 - La página conserva el contenido local de respaldo si Google Sheets no está disponible.
 - Si se crea otra pestaña o se reemplaza la hoja, debe verificarse su nuevo identificador `gid` antes de cambiar la configuración.
@@ -19,6 +19,7 @@ LABSEMCO usa una estructura híbrida: el diseño permanece en los archivos de la
 - `Divulgación`: cada fila crea un evento o actividad. Usa `TIPO`, `TITULO`, `FECHA`, `LUGAR`, `DESCRIPCION`, `ENLACE` y, opcionalmente, `TEXTO_ENLACE`.
 - `Enlaces`: cada fila crea un enlace dentro de la sección indicada.
 - `Diseño`: controla cinco tamaños tipográficos globales. Edita únicamente los números de `TAMAÑO_PX`; la columna `RANGO_SEGURO` indica los valores permitidos.
+- `Imágenes`: controla las fotografías principales de Inicio, Nosotros, Investigación, Proyectos, Equipo, Divulgación y Contacto. Edita `IMAGEN` con una ruta publicada dentro de `assets/` y describe la fotografía en `ALT`.
 - `Guía`: instrucciones breves; no se publica.
 
 En las pestañas repetibles, `ACTIVO=SI` muestra la fila, `ACTIVO=NO` la oculta y `ORDEN` controla su posición. Cada fila debe tener un `ID` único.
@@ -31,13 +32,15 @@ En `Proyectos`, `ENLACE` acepta direcciones completas como `https://github.com/o
 
 En `Diseño`, `TITULO_PRINCIPAL`, `TITULO_SECCION`, `SUBTITULO`, `TEXTO_NORMAL` y `TEXTO_PEQUENO` se expresan en píxeles. No cambies la columna `CLAVE`. Los límites se validan también en el navegador para proteger el diseño en computadora y teléfono.
 
+En `Imágenes`, no cambies la columna `ID`. Para usar una fotografía subida al repositorio escribe una ruta como `assets/IMG_0811.JPG`. Respeta exactamente las mayúsculas y la extensión del archivo. `ACTIVO=NO` conserva la fotografía incluida en el HTML como respaldo.
+
 ## Publicar las pestañas
 
 1. Importa `labsemco-contenido-google-sheets.xlsx` en Google Sheets.
 2. Abre **Archivo → Compartir → Publicar en la web**.
 3. Elige una pestaña y selecciona **Valores separados por comas (.csv)**.
 4. Copia el vínculo publicado.
-5. Repite los pasos para `Contenido`, `Carrusel`, `Investigación`, `Proyectos`, `Equipo`, `Divulgación`, `Enlaces` y `Diseño`.
+5. Repite los pasos para `Contenido`, `Carrusel`, `Investigación`, `Proyectos`, `Equipo`, `Divulgación`, `Enlaces`, `Diseño` e `Imágenes`.
 6. Pega cada vínculo en su lugar correspondiente dentro de `sheets-config.js`.
 7. Abre el sitio mediante un servidor local y confirma en la consola del navegador que no aparezca el aviso `Faltan columnas`.
 
@@ -53,6 +56,7 @@ window.LABSEMCO_SHEETS = {
   divulgacion: 'URL CSV DE DIVULGACIÓN',
   enlaces: 'URL CSV DE ENLACES',
   diseno: 'URL CSV DE DISEÑO',
+  imagenes: 'URL CSV DE IMÁGENES',
 };
 ```
 
