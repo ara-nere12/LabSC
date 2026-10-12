@@ -196,7 +196,7 @@ const loadCarousel = async () => {
     const anchor = document.createElement('a');
     anchor.href = safeResource(row.ENLACE) || '#';
     const image = document.createElement('img');
-    image.src = safeResource(row.IMAGEN) || 'assets/ai-research.jpg';
+    image.src = safeResource(row.IMAGEN) || 'assets/IMG_0813.JPG';
     image.alt = row.ALT || row.TITULO || '';
     image.loading = 'lazy';
     anchor.append(image, createTextElement('span', '', 'slide-shade'));
